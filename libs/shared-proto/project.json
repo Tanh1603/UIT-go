@@ -1,0 +1,29 @@
+{
+  "name": "shared-proto",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-proto/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared-proto",
+        "main": "libs/shared-proto/src/index.ts",
+        "tsConfig": "libs/shared-proto/tsconfig.lib.json",
+        "assets": ["libs/shared-proto/*.md",   {
+          "input": "libs/shared-proto/src/protos",
+          "glob": "**/*.proto",
+          "output": "src/protos"
+        }]
+      }
+    },
+    "proto:gen": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx protoc --ts_proto_out=libs/shared-proto/src/generated --ts_proto_opt=nestJs=true,addGrpcMetadata=true,outputServices=grpc-js,useDate=true,esModuleInterop=true,useDecimal=true -I=libs/shared-proto/src/protos libs/shared-proto/src/protos/*.proto"
+      }
+    }
+  }
+}

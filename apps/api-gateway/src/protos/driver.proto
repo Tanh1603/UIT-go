@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package driver;
+
+service DriverService {
+  rpc RegisterDriver(RegisterDriverRequest) returns (DriverResponse);
+  rpc GetDriver(GetDriverRequest) returns (DriverResponse);
+  rpc ValidateDriver(ValidateDriverRequest) returns (DriverResponse);
+  rpc UpdateLocation(UpdateLocationRequest) returns (LocationResponse);
+  rpc UpdateStatus(UpdateStatusRequest) returns (DriverResponse);
+  rpc GetNearbyDrivers(GetNearbyDriversRequest) returns (DriversListResponse);
+}
+
+message RegisterDriverRequest {
+  string name = 1;
+  string email = 2;
+  string phone = 3;
+  string vehicle_type = 4;
+  string license_plate = 5;
+  string license_number = 6;
+}
+
+message GetDriverRequest {
+  string driver_id = 1;
+}
+
+message ValidateDriverRequest {
+  string driver_id = 1;
+  string license_number = 2;
+}
+
+message UpdateLocationRequest {
+  string driver_id = 1;
+  double latitude = 2;
+  double longitude = 3;
+  double heading = 4;
+  double speed = 5;
+}
+
+message LocationResponse {
+  string driver_id = 1;
+  double latitude = 2;
+  double longitude = 3;
+  double heading = 4;
+  double speed = 5;
+  string updated_at = 6;
+}
+
+message UpdateStatusRequest {
+  string driver_id = 1;
+  string status = 2; // OFFLINE, ONLINE, BUSY
+}
+
+message GetNearbyDriversRequest {
+  double latitude = 1;
+  double longitude = 2;
+  double radius_km = 3;
+}
+
+message DriverResponse {
+  string driver_id = 1;
+  string name = 2;
+  string phone = 3;
+  string vehicle_type = 4;
+  string status = 5; // OFFLINE, ONLINE, BUSY
+  double rating = 6;
+  double balance = 7;
+}
+
+message DriversListResponse {
+  repeated DriverResponse drivers = 1;
+}

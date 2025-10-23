@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package trip;
+
+service TripService {
+  rpc CreateTrip(CreateTripRequest) returns (TripResponse);
+  rpc AcceptTrip(AcceptTripRequest) returns (TripResponse);
+  rpc StartTrip(StartTripRequest) returns (TripResponse);
+  rpc CompleteTrip(CompleteTripRequest) returns (TripResponse);
+  rpc CancelTrip(CancelTripRequest) returns (TripResponse);
+  rpc GetTrip(GetTripRequest) returns (TripResponse);
+  rpc GetDriverLocation(GetDriverLocationRequest) returns (LocationResponse);
+}
+
+message CreateTripRequest {
+  string user_id = 1;
+  Location pickup = 2;
+  Location dropoff = 3;
+  string vehicle_type = 4;
+  string payment_method = 5;
+}
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+  string address = 3;
+}
+
+message AcceptTripRequest {
+  string trip_id = 1;
+  string driver_id = 2;
+}
+
+message CompleteTripRequest {
+  string trip_id = 1;
+  string driver_id = 2;
+  double actual_distance = 3;
+  int32 actual_duration = 4;
+}
+
+message TripResponse {
+  string trip_id = 1;
+  string user_id = 2;
+  string driver_id = 3;
+  Location pickup = 4;
+  Location dropoff = 5;
+  string status = 6; // PENDING, ACCEPTED, STARTED, COMPLETED, CANCELLED
+  double fare = 7;
+  double distance = 8;
+  int32 duration = 9;
+  int64 created_at = 10;
+  int64 completed_at = 11;
+}
