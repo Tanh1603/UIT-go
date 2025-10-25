@@ -1,4 +1,4 @@
-import { USER_PACKAGE_NAME } from '@uit-go/shared-proto';
+import { userGrpcOptions } from '@uit-go/shared-client';
 /**
  * This is not a production server yet!
  * This is only a minimal backend to get started.
@@ -6,23 +6,15 @@ import { USER_PACKAGE_NAME } from '@uit-go/shared-proto';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { join } from 'path';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { AppModule } from './app/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
+
     {
-      transport: Transport.GRPC,
-      options: {
-        protoPath: join(
-          __dirname,
-          '../../libs/shared-proto/src/protos/user-profile.proto'
-        ),
-        package: USER_PACKAGE_NAME,
-        url: process.env.GRPC_URL,
-      },
+      ...userGrpcOptions,
     }
   );
   await app.listen();

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package driver;
+
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+}
+
+enum VehicleType {
+  VEHICLE_TYPE_UNSPECIFIED = 0;
+  MOTOBIKE = 1;
+  BIKE = 2;
+}
+
+enum DriverStatus {
+  DRIVER_STATUS_UNSPECIFIED = 0;
+  OFFLINE = 1;
+  ONLINE = 2;
+  BUSY = 3;
+}
+
+message DriverProfileResponse {
+  string userId = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  VehicleType vehicleType = 5;
+  string licensePlate = 6;
+  string licenseNumber = 7;
+  DriverStatus status = 8;
+  double rating = 9;
+  double balance = 10;
+  double lastLat = 11;
+  double lastLng = 12;
+}
+
+message CreateDriverRequest {
+  string userId = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  VehicleType vehicleType = 5;
+  string licensePlate = 6;
+  string licenseNumber = 7;
+}
+
+message GetDriverRequest {
+  string userId = 1;
+}
+
+service DriverService {
+  rpc CreateDriver(CreateDriverRequest) returns (DriverProfileResponse);
+  rpc GetDriver(GetDriverRequest) returns (DriverProfileResponse);
+
+  rpc UpdateLocation(UpdateLocationRequest) returns (EmptyResponse);
+  rpc GetLocation(GetLocationRequest) returns (GetLocationResponse);
+  rpc UpdateStatus(UpdateStatusRequest) returns (EmptyResponse);
+  rpc SearchDrivers(SearchDriversRequest) returns (SearchDriversResponse);
+}
+
+message UpdateLocationRequest {
+  string userId = 1;
+  Location location = 2;
+}
+
+message GetLocationRequest {
+  string userId = 1;
+}
+
+message GetLocationResponse {
+  string userId = 1;
+  Location location = 2;
+}
+
+message SearchDriversRequest {
+  Location location = 1;
+  double radius_km = 2;
+  int32 limit = 3;
+  VehicleType vehicleType = 4;
+}
+
+message SearchDriversResponse {
+  string userId = 1;
+  double distance_km = 2;
+  DriverStatus status = 3;
+  double rating = 4;
+  VehicleType vehicleType = 5;
+}
+
+message UpdateStatusRequest {
+  string userId = 1;
+  DriverStatus status = 2;
+}
+
+
+message EmptyResponse {}

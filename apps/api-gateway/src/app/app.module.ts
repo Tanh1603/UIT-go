@@ -4,6 +4,8 @@ import Joi from 'joi';
 import { UserModule } from '../micro-service/user/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from '../micro-service/auth/auth.module';
+import { DriverModule } from '../micro-service/driver/driver.module';
 
 @Module({
   imports: [
@@ -16,6 +18,10 @@ import { AppService } from './app.service';
     }),
 
     UserModule,
+
+    AuthModule,
+
+    DriverModule,
   ],
   controllers: [AppController],
   providers: [AppService],
