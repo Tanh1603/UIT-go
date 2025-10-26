@@ -2,6 +2,11 @@ import clerkClient from '@clerk/clerk-sdk-node';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { DriverServiceClient, GRPC_SERVICE } from '@uit-go/shared-client';
+import {
+  NearbyQuery,
+  UpdateLocationRequest,
+  UpdateStatusRequest,
+} from '@uit-go/shared-types';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -26,12 +31,19 @@ export class DriverService {
     return {
       userId: clerk.id,
       username: clerk.username,
-      email: profile.email,
-      name: profile.name,
-      phone: profile.phone,
-      vehicleType: profile.vehicleType,
-      licensePlate: profile.licensePlate,
-      licenseNumber: profile.licenseNumber,
+      ...profile,
     };
+  }
+
+  async updateStatus(data: UpdateStatusRequest) {
+    return firstValueFrom(this.driverService.updateStatus(data));
+  }
+
+  async updateLocation(data: UpdateLocationRequest) {
+    return firstValueFrom(this.driverService.updateLocation(data));
+  }
+
+  async searchNearBy(data: NearbyQuery) {
+    return firstValueFrom(this.driverService.searchNearbyDrivers(data));
   }
 }

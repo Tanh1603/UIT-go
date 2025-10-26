@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Injectable } from '@nestjs/common';
-import { createClient } from 'redis';
+import { createClient, RedisClientType } from 'redis';
 
 @Injectable()
 export class RedisService {
-  private client;
+  private client: RedisClientType;
 
   constructor() {
     this.client = createClient({
@@ -25,16 +26,20 @@ export class RedisService {
     lon: number,
     lat: number,
     radiusKm: number,
-    count: number
+    count?: number
   ) {
-    const results = await this.client.geoSearchWith(key, {
-      longitude: lon,
-      latitude: lat,
-      radius: radiusKm,
-      unit: 'km',
-      WITHDIST: true,
-      COUNT: count,
-    });
+    const options: any = { SORT: 'ASC' };
+    if (count && count > 0) {
+      options.COUNT = count;
+    }
+
+    const results = await this.client.geoSearchWith(
+      key,
+      { longitude: lon, latitude: lat },
+      { radius: radiusKm, unit: 'km' },
+      ['WITHDIST'],
+      options
+    );
     return results.map((r) => ({
       member: r.member,
       distance: parseFloat(r.distance),

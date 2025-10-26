@@ -13,6 +13,9 @@ export const GRPC_SERVICE = {
     METHODS: {
       CREATE: 'CreateDriver',
       DETAIL: 'GetDriver',
+      UPDATE_STATUS: 'UpdateStatus',
+      UPDATE_LOCATION: 'UpdateLocation',
+      SEARCH_NEARBY: 'SearchNearbyDrivers',
     },
   },
   TRIP: 'TripService',

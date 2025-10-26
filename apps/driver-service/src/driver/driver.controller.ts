@@ -2,7 +2,13 @@ import { GRPC_SERVICE } from '@uit-go/shared-client';
 import { Controller } from '@nestjs/common';
 import { DriverService } from './driver.service';
 import { GrpcMethod } from '@nestjs/microservices';
-import { CreateDriverRequest, GetDriverRequest } from '@uit-go/shared-types';
+import {
+  CreateDriverRequest,
+  GetDriverRequest,
+  NearbyQuery,
+  UpdateLocationRequest,
+  UpdateStatusRequest,
+} from '@uit-go/shared-types';
 
 // import {
 //   CreateDriverRequest,
@@ -27,19 +33,33 @@ export class DriverController {
     return this.driverService.findOne(data.userId);
   }
 
-  // @GrpcMethod('DriverLocationService', 'UpdateLocation')
-  // async updateLocation(data: UpdateLocationRequest) {
-  //   return this.driverService.updateLocation(data);
-  // }
+  @GrpcMethod(
+    GRPC_SERVICE.DRIVER.NAME,
+    GRPC_SERVICE.DRIVER.METHODS.UPDATE_LOCATION
+  )
+  async updateLocation(data: UpdateLocationRequest) {
+    return this.driverService.updateLocation(data);
+  }
+
+  @GrpcMethod(
+    GRPC_SERVICE.DRIVER.NAME,
+    GRPC_SERVICE.DRIVER.METHODS.UPDATE_STATUS
+  )
+  async updateStatus(data: UpdateStatusRequest) {
+    return this.driverService.updateStatus(data);
+  }
+
+  @GrpcMethod(
+    GRPC_SERVICE.DRIVER.NAME,
+    GRPC_SERVICE.DRIVER.METHODS.SEARCH_NEARBY
+  )
+  async searchNearbyDrivers(data: NearbyQuery) {
+    return this.driverService.searchNearbyDrivers(data);
+  }
 
   // @GrpcMethod('DriverLocationService', 'GetLocation')
   // async getLocation(data: GetLocationRequest) {
   //   return this.driverService.getLocation(data);
-  // }
-
-  // @GrpcMethod('DriverLocationService', 'UpdateStatus')
-  // async updateStatus(data: UpdateStatusRequest) {
-  //   return this.driverService.updateStatus(data);
   // }
 
   // @GrpcMethod('DriverLocationService', 'SearchDrivers')

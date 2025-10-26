@@ -1,6 +1,3 @@
-import { DriverStatusEnum } from '../../enum/driver-status.enum';
-import { VehicleTypeEnum } from '../../enum/vehicle.enum';
-
 export class DriverProfileResponse {
   userId!: string;
   name!: string;
@@ -9,13 +6,13 @@ export class DriverProfileResponse {
 
   phone!: string;
 
-  vehicleType!: VehicleTypeEnum;
+  vehicleType!: string;
 
   licensePlate!: string;
 
   licenseNumber!: string;
 
-  status!: DriverStatusEnum;
+  status!: string;
 
   rating!: number;
 
