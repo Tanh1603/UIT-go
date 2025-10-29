@@ -1,0 +1,26 @@
+# Stage 1: Build
+FROM node:18 AS build
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY tsconfig.base.json ./
+COPY nx.json ./
+
+RUN npm install
+
+COPY . .
+
+RUN npx nx build user-service
+
+# Stage 2: Production
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist/apps/user-service .
+COPY --from=build /app/node_modules ./node_modules
+
+EXPOSE 3000
+
+CMD ["node", "main.js"]
