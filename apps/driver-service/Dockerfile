@@ -11,6 +11,9 @@ RUN npm install
 
 COPY . .
 
+# Generate Prisma client for driver-service
+RUN cd apps/driver-service && npx prisma generate
+
 RUN npx nx build driver-service
 
 # Stage 2: Production
@@ -20,7 +23,15 @@ WORKDIR /app
 
 COPY --from=build /app/dist/apps/driver-service .
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/libs/shared-client/src/grpc/proto ./libs/shared-client/src/grpc/proto
+COPY --from=build /app/apps/driver-service/prisma ./prisma
 
-EXPOSE 3000
+EXPOSE 50052
 
-CMD ["node", "main.js"]
+# Create a startup script to handle database migrations
+RUN echo '#!/bin/sh' > start.sh && \
+    echo 'npx prisma db push --schema=./prisma/schema.prisma --skip-generate' >> start.sh && \
+    echo 'node main.js' >> start.sh && \
+    chmod +x start.sh
+
+CMD ["./start.sh"]

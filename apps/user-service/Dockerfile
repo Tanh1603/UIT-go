@@ -11,6 +11,9 @@ RUN npm install
 
 COPY . .
 
+# Generate Prisma client for user-service
+RUN cd apps/user-service && npx prisma generate
+
 RUN npx nx build user-service
 
 # Stage 2: Production
@@ -20,7 +23,15 @@ WORKDIR /app
 
 COPY --from=build /app/dist/apps/user-service .
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/libs/shared-client/src/grpc/proto ./libs/shared-client/src/grpc/proto
+COPY --from=build /app/apps/user-service/prisma ./prisma
 
-EXPOSE 3000
+EXPOSE 50051
 
-CMD ["node", "main.js"]
+# Create a startup script to handle database migrations
+RUN echo '#!/bin/sh' > start.sh && \
+    echo 'npx prisma db push --schema=./prisma/schema.prisma --skip-generate' >> start.sh && \
+    echo 'node main.js' >> start.sh && \
+    chmod +x start.sh
+
+CMD ["./start.sh"]

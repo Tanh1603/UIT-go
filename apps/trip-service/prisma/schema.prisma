@@ -1,22 +1,25 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
 model Trip {
-  id        String      @id @default(cuid())
-  userId    String
-  driverId  String?
-  status    TripStatus  @default(FINDING_DRIVER)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id        String     @id @default(cuid())
+  userId    String     @map("user_id") @db.VarChar(255)
+  driverId  String?    @map("driver_id") @db.VarChar(255)
+  status    TripStatus @default(FINDING_DRIVER)
+  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("trip")
 }
 
 enum TripStatus {

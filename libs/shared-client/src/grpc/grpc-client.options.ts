@@ -11,7 +11,7 @@ export const userGrpcOptions: GrpcOptions = {
       '../../libs/shared-client/src/grpc/proto/user.proto'
     ),
     package: GRPC_SERVICE.USER.PACKAGE,
-    url: process.env['USER_GRPC_URL'],
+    url: process.env['USER_GRPC_URL'] || '0.0.0.0:50051',
   },
 };
 
@@ -24,7 +24,7 @@ export const driverGrpcOptions: GrpcOptions = {
       '../../libs/shared-client/src/grpc/proto/driver.proto'
     ),
     package: GRPC_SERVICE.DRIVER.PACKAGE,
-    url: process.env['DRIVER_GRPC_URL'],
+    url: process.env['DRIVER_GRPC_URL'] || '0.0.0.0:50052',
   },
 };
 
@@ -37,6 +37,6 @@ export const tripGrpcOptions: GrpcOptions = {
       '../../libs/shared-client/src/grpc/proto/trip.proto'
     ),
     package: GRPC_SERVICE.TRIP.PACKAGE,
-    url: process.env['TRIP_GRPC_URL'],
+    url: process.env['TRIP_GRPC_URL'] || '0.0.0.0:50053',
   },
 };

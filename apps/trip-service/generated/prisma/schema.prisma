@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Trip {
+  id        String     @id @default(cuid())
+  userId    String
+  driverId  String?
+  status    TripStatus @default(FINDING_DRIVER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+enum TripStatus {
+  FINDING_DRIVER
+  DRIVER_ACCEPTED
+  ONGOING
+  COMPLETED
+  CANCELED
+}

@@ -1,17 +1,53 @@
-version: '3.8'
-
 services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: uitgo
+      POSTGRES_PASSWORD: uitgopassword
+      POSTGRES_DB: uitgo
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - uit-go-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uitgo -d uitgo"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Redis for caching (if needed)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - uit-go-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   api-gateway:
     build:
       context: .
       dockerfile: apps/api-gateway/Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
       - USER_GRPC_URL=user-service:50051
       - DRIVER_GRPC_URL=driver-service:50052
       - TRIP_GRPC_URL=trip-service:50053
-      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
+      - CLERK_SECRET_KEY=${CLERK_SECRET_KEY:-your-clerk-secret-key}
+    depends_on:
+      - postgres
+      - redis
+      - user-service
+      - driver-service
+      - trip-service
     networks:
       - uit-go-network
 
@@ -20,7 +56,13 @@ services:
       context: .
       dockerfile: apps/user-service/Dockerfile
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=user
+      - USER_GRPC_URL=0.0.0.0:50051
+    ports:
+      - "50051:50051"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - uit-go-network
 
@@ -29,7 +71,16 @@ services:
       context: .
       dockerfile: apps/driver-service/Dockerfile
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=driver
+      - DRIVER_GRPC_URL=0.0.0.0:50052
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "50052:50052"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - uit-go-network
 
@@ -38,9 +89,18 @@ services:
       context: .
       dockerfile: apps/trip-service/Dockerfile
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=trip
+      - TRIP_GRPC_URL=0.0.0.0:50053
+    ports:
+      - "50053:50053"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - uit-go-network
+
+volumes:
+  postgres_data:
 
 networks:
   uit-go-network:
