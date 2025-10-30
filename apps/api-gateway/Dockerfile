@@ -20,6 +20,7 @@ WORKDIR /app
 
 COPY --from=build /app/dist/apps/api-gateway .
 COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/libs/shared-client/src/grpc/proto /libs/shared-client/src/grpc/proto
 
 EXPOSE 3000
 

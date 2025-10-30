@@ -23,8 +23,9 @@ WORKDIR /app
 
 COPY --from=build /app/dist/apps/driver-service .
 COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/libs/shared-client/src/grpc/proto ./libs/shared-client/src/grpc/proto
+COPY --from=build /app/libs/shared-client/src/grpc/proto /libs/shared-client/src/grpc/proto
 COPY --from=build /app/apps/driver-service/prisma ./prisma
+COPY --from=build /app/apps/driver-service/generated/prisma ./prisma
 
 EXPOSE 50052
 
