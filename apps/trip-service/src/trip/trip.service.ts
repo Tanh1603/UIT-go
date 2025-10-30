@@ -1,12 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
+import { GRPC_SERVICE, DriverServiceClient } from '@uit-go/shared-client';
 import { PrismaService } from '../common/prisma/prisma.service';
-import { Trip, TripStatus } from '../../generated/prisma';
 
 @Injectable()
-export class TripService {
-  constructor(private readonly prisma: PrismaService) {}
+export class TripService implements OnModuleInit {
+  private driverService: DriverServiceClient;
 
-  async createTrip(data: { userId: string }): Promise<Trip> {
+  constructor(
+    private readonly prisma: PrismaService,
+    @Inject(GRPC_SERVICE.DRIVER.NAME) private readonly driverClient: ClientGrpc
+  ) {}
+
+  onModuleInit() {
+    this.driverService = this.driverClient.getService<DriverServiceClient>(
+      GRPC_SERVICE.DRIVER.NAME
+    );
+  }
+
+  async createTrip(data: { userId: string }) {
     return this.prisma.trip.create({
       data: {
         userId: data.userId,
@@ -14,44 +26,49 @@ export class TripService {
     });
   }
 
-  async getTripById(id: string): Promise<Trip | null> {
+  async getTripById(id: string) {
     return this.prisma.trip.findUnique({
       where: { id },
     });
   }
 
-  async cancelTrip(id: string): Promise<Trip> {
+  async cancelTrip(id: string) {
     return this.prisma.trip.update({
       where: { id },
-      data: { status: TripStatus.CANCELED },
+      data: { status: 'CANCELED' },
     });
   }
 
-  async acceptTrip(id: string, driverId: string): Promise<Trip> {
+  async acceptTrip(id: string, driverId: string) {
     return this.prisma.trip.update({
       where: { id },
-      data: { status: TripStatus.DRIVER_ACCEPTED, driverId },
+      data: { status: 'DRIVER_ACCEPTED', driverId },
     });
   }
 
-  async startTrip(id: string): Promise<Trip> {
+  async startTrip(id: string) {
     return this.prisma.trip.update({
       where: { id },
-      data: { status: TripStatus.ONGOING },
+      data: { status: 'ONGOING' },
     });
   }
 
-  async completeTrip(id: string): Promise<Trip> {
+  async completeTrip(id: string) {
     return this.prisma.trip.update({
       where: { id },
-      data: { status: TripStatus.COMPLETED },
+      data: { status: 'COMPLETED' },
     });
   }
 
   async findNearestDriver(tripId: string): Promise<string | null> {
-    // In a real application, this would involve a complex geospatial query.
+    // In a real application, this would involve communicating with the driver service
+    // to find nearby available drivers using geospatial queries.
     // For now, we'll just return a placeholder driver ID.
     console.log(`Finding nearest driver for trip ${tripId}`);
+
+    // TODO: Implement integration with driver service
+    // Example: const nearbyDrivers = await this.driverService.searchNearbyDrivers(location);
+
     return 'placeholder-driver-id';
   }
 }

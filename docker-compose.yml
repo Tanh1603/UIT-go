@@ -58,6 +58,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=user
       - USER_GRPC_URL=0.0.0.0:50051
+      - DRIVER_GRPC_URL=driver-service:50052
+      - TRIP_GRPC_URL=trip-service:50053
     ports:
       - "50051:50051"
     depends_on:
@@ -74,6 +76,8 @@ services:
       - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=driver
       - DRIVER_GRPC_URL=0.0.0.0:50052
       - REDIS_URL=redis://redis:6379
+      - USER_GRPC_URL=user-service:50051
+      - TRIP_GRPC_URL=trip-service:50053
     ports:
       - "50052:50052"
     depends_on:
@@ -91,6 +95,8 @@ services:
     environment:
       - DATABASE_URL=postgresql://uitgo:uitgopassword@postgres:5432/uitgo?schema=trip
       - TRIP_GRPC_URL=0.0.0.0:50053
+      - USER_GRPC_URL=user-service:50051
+      - DRIVER_GRPC_URL=driver-service:50052
     ports:
       - "50053:50053"
     depends_on:
