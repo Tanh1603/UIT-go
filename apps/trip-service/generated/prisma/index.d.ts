@@ -887,8 +887,28 @@ export namespace Prisma {
 
   export type AggregateTrip = {
     _count: TripCountAggregateOutputType | null
+    _avg: TripAvgAggregateOutputType | null
+    _sum: TripSumAggregateOutputType | null
     _min: TripMinAggregateOutputType | null
     _max: TripMaxAggregateOutputType | null
+  }
+
+  export type TripAvgAggregateOutputType = {
+    pickupLatitude: number | null
+    pickupLongitude: number | null
+    destinationLatitude: number | null
+    destinationLongitude: number | null
+    driverLatitude: number | null
+    driverLongitude: number | null
+  }
+
+  export type TripSumAggregateOutputType = {
+    pickupLatitude: number | null
+    pickupLongitude: number | null
+    destinationLatitude: number | null
+    destinationLongitude: number | null
+    driverLatitude: number | null
+    driverLongitude: number | null
   }
 
   export type TripMinAggregateOutputType = {
@@ -896,6 +916,12 @@ export namespace Prisma {
     userId: string | null
     driverId: string | null
     status: $Enums.TripStatus | null
+    pickupLatitude: number | null
+    pickupLongitude: number | null
+    destinationLatitude: number | null
+    destinationLongitude: number | null
+    driverLatitude: number | null
+    driverLongitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -905,6 +931,12 @@ export namespace Prisma {
     userId: string | null
     driverId: string | null
     status: $Enums.TripStatus | null
+    pickupLatitude: number | null
+    pickupLongitude: number | null
+    destinationLatitude: number | null
+    destinationLongitude: number | null
+    driverLatitude: number | null
+    driverLongitude: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -914,17 +946,47 @@ export namespace Prisma {
     userId: number
     driverId: number
     status: number
+    pickupLatitude: number
+    pickupLongitude: number
+    destinationLatitude: number
+    destinationLongitude: number
+    driverLatitude: number
+    driverLongitude: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type TripAvgAggregateInputType = {
+    pickupLatitude?: true
+    pickupLongitude?: true
+    destinationLatitude?: true
+    destinationLongitude?: true
+    driverLatitude?: true
+    driverLongitude?: true
+  }
+
+  export type TripSumAggregateInputType = {
+    pickupLatitude?: true
+    pickupLongitude?: true
+    destinationLatitude?: true
+    destinationLongitude?: true
+    driverLatitude?: true
+    driverLongitude?: true
+  }
+
   export type TripMinAggregateInputType = {
     id?: true
     userId?: true
     driverId?: true
     status?: true
+    pickupLatitude?: true
+    pickupLongitude?: true
+    destinationLatitude?: true
+    destinationLongitude?: true
+    driverLatitude?: true
+    driverLongitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -934,6 +996,12 @@ export namespace Prisma {
     userId?: true
     driverId?: true
     status?: true
+    pickupLatitude?: true
+    pickupLongitude?: true
+    destinationLatitude?: true
+    destinationLongitude?: true
+    driverLatitude?: true
+    driverLongitude?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -943,6 +1011,12 @@ export namespace Prisma {
     userId?: true
     driverId?: true
     status?: true
+    pickupLatitude?: true
+    pickupLongitude?: true
+    destinationLatitude?: true
+    destinationLongitude?: true
+    driverLatitude?: true
+    driverLongitude?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -986,6 +1060,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: TripAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TripSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: TripMinAggregateInputType
@@ -1016,6 +1102,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: TripCountAggregateInputType | true
+    _avg?: TripAvgAggregateInputType
+    _sum?: TripSumAggregateInputType
     _min?: TripMinAggregateInputType
     _max?: TripMaxAggregateInputType
   }
@@ -1025,9 +1113,17 @@ export namespace Prisma {
     userId: string
     driverId: string | null
     status: $Enums.TripStatus
+    pickupLatitude: number | null
+    pickupLongitude: number | null
+    destinationLatitude: number | null
+    destinationLongitude: number | null
+    driverLatitude: number | null
+    driverLongitude: number | null
     createdAt: Date
     updatedAt: Date
     _count: TripCountAggregateOutputType | null
+    _avg: TripAvgAggregateOutputType | null
+    _sum: TripSumAggregateOutputType | null
     _min: TripMinAggregateOutputType | null
     _max: TripMaxAggregateOutputType | null
   }
@@ -1051,6 +1147,12 @@ export namespace Prisma {
     userId?: boolean
     driverId?: boolean
     status?: boolean
+    pickupLatitude?: boolean
+    pickupLongitude?: boolean
+    destinationLatitude?: boolean
+    destinationLongitude?: boolean
+    driverLatitude?: boolean
+    driverLongitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["trip"]>
@@ -1060,6 +1162,12 @@ export namespace Prisma {
     userId?: boolean
     driverId?: boolean
     status?: boolean
+    pickupLatitude?: boolean
+    pickupLongitude?: boolean
+    destinationLatitude?: boolean
+    destinationLongitude?: boolean
+    driverLatitude?: boolean
+    driverLongitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["trip"]>
@@ -1069,6 +1177,12 @@ export namespace Prisma {
     userId?: boolean
     driverId?: boolean
     status?: boolean
+    pickupLatitude?: boolean
+    pickupLongitude?: boolean
+    destinationLatitude?: boolean
+    destinationLongitude?: boolean
+    driverLatitude?: boolean
+    driverLongitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["trip"]>
@@ -1078,11 +1192,17 @@ export namespace Prisma {
     userId?: boolean
     driverId?: boolean
     status?: boolean
+    pickupLatitude?: boolean
+    pickupLongitude?: boolean
+    destinationLatitude?: boolean
+    destinationLongitude?: boolean
+    driverLatitude?: boolean
+    driverLongitude?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "driverId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["trip"]>
+  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "driverId" | "status" | "pickupLatitude" | "pickupLongitude" | "destinationLatitude" | "destinationLongitude" | "driverLatitude" | "driverLongitude" | "createdAt" | "updatedAt", ExtArgs["result"]["trip"]>
 
   export type $TripPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Trip"
@@ -1092,6 +1212,12 @@ export namespace Prisma {
       userId: string
       driverId: string | null
       status: $Enums.TripStatus
+      pickupLatitude: number | null
+      pickupLongitude: number | null
+      destinationLatitude: number | null
+      destinationLongitude: number | null
+      driverLatitude: number | null
+      driverLongitude: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["trip"]>
@@ -1521,6 +1647,12 @@ export namespace Prisma {
     readonly userId: FieldRef<"Trip", 'String'>
     readonly driverId: FieldRef<"Trip", 'String'>
     readonly status: FieldRef<"Trip", 'TripStatus'>
+    readonly pickupLatitude: FieldRef<"Trip", 'Float'>
+    readonly pickupLongitude: FieldRef<"Trip", 'Float'>
+    readonly destinationLatitude: FieldRef<"Trip", 'Float'>
+    readonly destinationLongitude: FieldRef<"Trip", 'Float'>
+    readonly driverLatitude: FieldRef<"Trip", 'Float'>
+    readonly driverLongitude: FieldRef<"Trip", 'Float'>
     readonly createdAt: FieldRef<"Trip", 'DateTime'>
     readonly updatedAt: FieldRef<"Trip", 'DateTime'>
   }
@@ -1908,6 +2040,12 @@ export namespace Prisma {
     userId: 'userId',
     driverId: 'driverId',
     status: 'status',
+    pickupLatitude: 'pickupLatitude',
+    pickupLongitude: 'pickupLongitude',
+    destinationLatitude: 'destinationLatitude',
+    destinationLongitude: 'destinationLongitude',
+    driverLatitude: 'driverLatitude',
+    driverLongitude: 'driverLongitude',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -1973,6 +2111,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -2011,6 +2163,12 @@ export namespace Prisma {
     userId?: StringFilter<"Trip"> | string
     driverId?: StringNullableFilter<"Trip"> | string | null
     status?: EnumTripStatusFilter<"Trip"> | $Enums.TripStatus
+    pickupLatitude?: FloatNullableFilter<"Trip"> | number | null
+    pickupLongitude?: FloatNullableFilter<"Trip"> | number | null
+    destinationLatitude?: FloatNullableFilter<"Trip"> | number | null
+    destinationLongitude?: FloatNullableFilter<"Trip"> | number | null
+    driverLatitude?: FloatNullableFilter<"Trip"> | number | null
+    driverLongitude?: FloatNullableFilter<"Trip"> | number | null
     createdAt?: DateTimeFilter<"Trip"> | Date | string
     updatedAt?: DateTimeFilter<"Trip"> | Date | string
   }
@@ -2020,6 +2178,12 @@ export namespace Prisma {
     userId?: SortOrder
     driverId?: SortOrderInput | SortOrder
     status?: SortOrder
+    pickupLatitude?: SortOrderInput | SortOrder
+    pickupLongitude?: SortOrderInput | SortOrder
+    destinationLatitude?: SortOrderInput | SortOrder
+    destinationLongitude?: SortOrderInput | SortOrder
+    driverLatitude?: SortOrderInput | SortOrder
+    driverLongitude?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2032,6 +2196,12 @@ export namespace Prisma {
     userId?: StringFilter<"Trip"> | string
     driverId?: StringNullableFilter<"Trip"> | string | null
     status?: EnumTripStatusFilter<"Trip"> | $Enums.TripStatus
+    pickupLatitude?: FloatNullableFilter<"Trip"> | number | null
+    pickupLongitude?: FloatNullableFilter<"Trip"> | number | null
+    destinationLatitude?: FloatNullableFilter<"Trip"> | number | null
+    destinationLongitude?: FloatNullableFilter<"Trip"> | number | null
+    driverLatitude?: FloatNullableFilter<"Trip"> | number | null
+    driverLongitude?: FloatNullableFilter<"Trip"> | number | null
     createdAt?: DateTimeFilter<"Trip"> | Date | string
     updatedAt?: DateTimeFilter<"Trip"> | Date | string
   }, "id">
@@ -2041,11 +2211,19 @@ export namespace Prisma {
     userId?: SortOrder
     driverId?: SortOrderInput | SortOrder
     status?: SortOrder
+    pickupLatitude?: SortOrderInput | SortOrder
+    pickupLongitude?: SortOrderInput | SortOrder
+    destinationLatitude?: SortOrderInput | SortOrder
+    destinationLongitude?: SortOrderInput | SortOrder
+    driverLatitude?: SortOrderInput | SortOrder
+    driverLongitude?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TripCountOrderByAggregateInput
+    _avg?: TripAvgOrderByAggregateInput
     _max?: TripMaxOrderByAggregateInput
     _min?: TripMinOrderByAggregateInput
+    _sum?: TripSumOrderByAggregateInput
   }
 
   export type TripScalarWhereWithAggregatesInput = {
@@ -2056,6 +2234,12 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Trip"> | string
     driverId?: StringNullableWithAggregatesFilter<"Trip"> | string | null
     status?: EnumTripStatusWithAggregatesFilter<"Trip"> | $Enums.TripStatus
+    pickupLatitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
+    pickupLongitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
+    destinationLatitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
+    destinationLongitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
+    driverLatitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
+    driverLongitude?: FloatNullableWithAggregatesFilter<"Trip"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
   }
@@ -2065,6 +2249,12 @@ export namespace Prisma {
     userId: string
     driverId?: string | null
     status?: $Enums.TripStatus
+    pickupLatitude?: number | null
+    pickupLongitude?: number | null
+    destinationLatitude?: number | null
+    destinationLongitude?: number | null
+    driverLatitude?: number | null
+    driverLongitude?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2074,6 +2264,12 @@ export namespace Prisma {
     userId: string
     driverId?: string | null
     status?: $Enums.TripStatus
+    pickupLatitude?: number | null
+    pickupLongitude?: number | null
+    destinationLatitude?: number | null
+    destinationLongitude?: number | null
+    driverLatitude?: number | null
+    driverLongitude?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2083,6 +2279,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    pickupLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2092,6 +2294,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    pickupLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2101,6 +2309,12 @@ export namespace Prisma {
     userId: string
     driverId?: string | null
     status?: $Enums.TripStatus
+    pickupLatitude?: number | null
+    pickupLongitude?: number | null
+    destinationLatitude?: number | null
+    destinationLongitude?: number | null
+    driverLatitude?: number | null
+    driverLongitude?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -2110,6 +2324,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    pickupLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2119,6 +2339,12 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     driverId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTripStatusFieldUpdateOperationsInput | $Enums.TripStatus
+    pickupLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    pickupLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    destinationLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLatitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    driverLongitude?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2160,6 +2386,17 @@ export namespace Prisma {
     not?: NestedEnumTripStatusFilter<$PrismaModel> | $Enums.TripStatus
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2181,8 +2418,23 @@ export namespace Prisma {
     userId?: SortOrder
     driverId?: SortOrder
     status?: SortOrder
+    pickupLatitude?: SortOrder
+    pickupLongitude?: SortOrder
+    destinationLatitude?: SortOrder
+    destinationLongitude?: SortOrder
+    driverLatitude?: SortOrder
+    driverLongitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TripAvgOrderByAggregateInput = {
+    pickupLatitude?: SortOrder
+    pickupLongitude?: SortOrder
+    destinationLatitude?: SortOrder
+    destinationLongitude?: SortOrder
+    driverLatitude?: SortOrder
+    driverLongitude?: SortOrder
   }
 
   export type TripMaxOrderByAggregateInput = {
@@ -2190,6 +2442,12 @@ export namespace Prisma {
     userId?: SortOrder
     driverId?: SortOrder
     status?: SortOrder
+    pickupLatitude?: SortOrder
+    pickupLongitude?: SortOrder
+    destinationLatitude?: SortOrder
+    destinationLongitude?: SortOrder
+    driverLatitude?: SortOrder
+    driverLongitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -2199,8 +2457,23 @@ export namespace Prisma {
     userId?: SortOrder
     driverId?: SortOrder
     status?: SortOrder
+    pickupLatitude?: SortOrder
+    pickupLongitude?: SortOrder
+    destinationLatitude?: SortOrder
+    destinationLongitude?: SortOrder
+    driverLatitude?: SortOrder
+    driverLongitude?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type TripSumOrderByAggregateInput = {
+    pickupLatitude?: SortOrder
+    pickupLongitude?: SortOrder
+    destinationLatitude?: SortOrder
+    destinationLongitude?: SortOrder
+    driverLatitude?: SortOrder
+    driverLongitude?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -2249,6 +2522,22 @@ export namespace Prisma {
     _max?: NestedEnumTripStatusFilter<$PrismaModel>
   }
 
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -2273,6 +2562,14 @@ export namespace Prisma {
 
   export type EnumTripStatusFieldUpdateOperationsInput = {
     set?: $Enums.TripStatus
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2312,6 +2609,17 @@ export namespace Prisma {
     in?: $Enums.TripStatus[] | ListEnumTripStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.TripStatus[] | ListEnumTripStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumTripStatusFilter<$PrismaModel> | $Enums.TripStatus
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -2389,6 +2697,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTripStatusFilter<$PrismaModel>
     _max?: NestedEnumTripStatusFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {

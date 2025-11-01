@@ -1,4 +1,5 @@
 import { Controller, Post, Get, Param, Body } from '@nestjs/common';
+import { CreateTripRequest } from '@uit-go/shared-types';
 import { TripService } from './trip.service';
 
 @Controller('trips')
@@ -6,7 +7,7 @@ export class TripController {
   constructor(private readonly tripService: TripService) {}
 
   @Post()
-  createTrip(@Body() data: { userId: string }) {
+  createTrip(@Body() data: CreateTripRequest) {
     return this.tripService.createTrip(data);
   }
 

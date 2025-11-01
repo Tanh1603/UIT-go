@@ -14,9 +14,13 @@ export class TripController {
 
   @GrpcMethod(GRPC_SERVICE.TRIP.NAME, GRPC_SERVICE.TRIP.METHODS.CREATE)
   async createTrip(data: CreateTripRequest) {
-    const trip = await this.tripService.createTrip(data);
-    this.tripService.findNearestDriver(trip.id);
-    return trip;
+    // The createTrip method now handles the complete flow:
+    // 1. Creates trip with location data
+    // 2. Finds nearest driver
+    // 3. Assigns driver to trip
+    // 4. Updates driver status to busy
+    // 5. Returns trip with driver info
+    return await this.tripService.createTrip(data);
   }
 
   @GrpcMethod(GRPC_SERVICE.TRIP.NAME, GRPC_SERVICE.TRIP.METHODS.DETAIL)

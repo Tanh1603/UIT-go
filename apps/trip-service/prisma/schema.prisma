@@ -13,12 +13,18 @@ generator client {
 }
 
 model Trip {
-  id        String     @id @default(cuid())
-  userId    String     @map("user_id") @db.VarChar(255)
-  driverId  String?    @map("driver_id") @db.VarChar(255)
-  status    TripStatus @default(FINDING_DRIVER)
-  createdAt DateTime   @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+  id                   String     @id @default(cuid())
+  userId               String     @map("user_id") @db.VarChar(255)
+  driverId             String?    @map("driver_id") @db.VarChar(255)
+  status               TripStatus @default(FINDING_DRIVER)
+  pickupLatitude       Float?     @map("pickup_latitude")
+  pickupLongitude      Float?     @map("pickup_longitude")
+  destinationLatitude  Float?     @map("destination_latitude")
+  destinationLongitude Float?     @map("destination_longitude")
+  driverLatitude       Float?     @map("driver_latitude")
+  driverLongitude      Float?     @map("driver_longitude")
+  createdAt            DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt            DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("trip")
 }

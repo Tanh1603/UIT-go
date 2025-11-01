@@ -125,6 +125,12 @@ exports.Prisma.TripScalarFieldEnum = {
   userId: 'userId',
   driverId: 'driverId',
   status: 'status',
+  pickupLatitude: 'pickupLatitude',
+  pickupLongitude: 'pickupLongitude',
+  destinationLatitude: 'destinationLatitude',
+  destinationLongitude: 'destinationLongitude',
+  driverLatitude: 'driverLatitude',
+  driverLongitude: 'driverLongitude',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
