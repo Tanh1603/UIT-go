@@ -65,8 +65,9 @@ export class DriverService {
   async updateStatus(data: UpdateStatusRequest) {
     const profile = await this.prismaService.$transaction(async (db) => {
       const updateData: any = {
-        status: DriverStatusEnum[data.status],
+        status: data.status, // data.status is already the correct string value
       };
+
       if (
         data.status === DriverStatusEnum.BUSY ||
         data.status === DriverStatusEnum.OFFLINE
@@ -110,12 +111,48 @@ export class DriverService {
   }
 
   async searchNearbyDrivers(data: NearbyQuery): Promise<NearbyDriverResponse> {
+    // Add logging and validation for debugging
+    console.log(
+      'searchNearbyDrivers called with data:',
+      JSON.stringify(data, null, 2)
+    );
+
+    // Validate input data
+    if (!data) {
+      throw new Error('NearbyQuery data is required');
+    }
+    if (
+      data.longitude === undefined ||
+      data.longitude === null ||
+      isNaN(data.longitude)
+    ) {
+      throw new Error(`Invalid longitude: ${data.longitude}`);
+    }
+    if (
+      data.latitude === undefined ||
+      data.latitude === null ||
+      isNaN(data.latitude)
+    ) {
+      throw new Error(`Invalid latitude: ${data.latitude}`);
+    }
+    if (
+      data.radiusKm === undefined ||
+      data.radiusKm === null ||
+      isNaN(data.radiusKm) ||
+      data.radiusKm <= 0
+    ) {
+      throw new Error(`Invalid radiusKm: ${data.radiusKm}`);
+    }
+
+    // Handle count parameter defensively for gRPC compatibility
+    const count = data.count && data.count > 0 ? data.count : undefined;
+
     const res = await this.redisService.geosearch(
       'drivers',
       data.longitude,
       data.latitude,
       data.radiusKm,
-      data.count
+      count
     );
 
     return {

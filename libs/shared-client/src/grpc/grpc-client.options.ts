@@ -12,6 +12,15 @@ export const userGrpcOptions: GrpcOptions = {
     ),
     package: GRPC_SERVICE.USER.PACKAGE,
     url: process.env['USER_GRPC_URL'] || '0.0.0.0:50051',
+    loader: {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      arrays: true,
+      objects: true,
+      includeDirs: [],
+    },
   },
 };
 
@@ -25,6 +34,15 @@ export const driverGrpcOptions: GrpcOptions = {
     ),
     package: GRPC_SERVICE.DRIVER.PACKAGE,
     url: process.env['DRIVER_GRPC_URL'] || '0.0.0.0:50052',
+    loader: {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      arrays: true,
+      objects: true,
+      includeDirs: [],
+    },
   },
 };
 
@@ -38,5 +56,14 @@ export const tripGrpcOptions: GrpcOptions = {
     ),
     package: GRPC_SERVICE.TRIP.PACKAGE,
     url: process.env['TRIP_GRPC_URL'] || '0.0.0.0:50053',
+    loader: {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      arrays: true,
+      objects: true,
+      includeDirs: [],
+    },
   },
 };

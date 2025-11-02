@@ -13,6 +13,10 @@ service TripService {
 
 message CreateTripRequest {
   string userId = 1;
+  double pickupLatitude = 2;
+  double pickupLongitude = 3;
+  double destinationLatitude = 4;
+  double destinationLongitude = 5;
 }
 
 message AcceptTripRequest {

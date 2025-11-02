@@ -57,6 +57,32 @@ export class TripService implements OnModuleInit {
         count: 1, // Get the nearest driver
       };
 
+      console.log(
+        'TripService - About to call searchNearbyDrivers with:',
+        JSON.stringify(nearbyDriversQuery, null, 2)
+      );
+      console.log('TripService - Individual field values:');
+      console.log(
+        '  latitude:',
+        nearbyDriversQuery.latitude,
+        typeof nearbyDriversQuery.latitude
+      );
+      console.log(
+        '  longitude:',
+        nearbyDriversQuery.longitude,
+        typeof nearbyDriversQuery.longitude
+      );
+      console.log(
+        '  radiusKm:',
+        nearbyDriversQuery.radiusKm,
+        typeof nearbyDriversQuery.radiusKm
+      );
+      console.log(
+        '  count:',
+        nearbyDriversQuery.count,
+        typeof nearbyDriversQuery.count
+      );
+
       const nearbyDriversResponse = await firstValueFrom(
         this.driverService.searchNearbyDrivers(nearbyDriversQuery)
       );

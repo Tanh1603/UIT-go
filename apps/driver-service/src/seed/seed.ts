@@ -13,6 +13,76 @@ async function geoadd(key: string, lon: number, lat: number, member: string) {
 }
 const prismaService = new PrismaClient();
 
+const createTestDrivers = async () => {
+  // Test driver locations in Ho Chi Minh City
+  const testDrivers = [
+    {
+      userId: 'driver-test-1',
+      name: 'Test Driver 1',
+      email: 'driver1@test.com',
+      phone: '+84901234567',
+      lat: 10.762622,
+      lng: 106.660172,
+    },
+    {
+      userId: 'driver-test-2',
+      name: 'Test Driver 2',
+      email: 'driver2@test.com',
+      phone: '+84901234568',
+      lat: 10.764622,
+      lng: 106.662172,
+    },
+    {
+      userId: 'driver-test-3',
+      name: 'Test Driver 3',
+      email: 'driver3@test.com',
+      phone: '+84901234569',
+      lat: 10.765622,
+      lng: 106.664172,
+    },
+  ];
+
+  console.log('🚗 Creating test drivers...');
+
+  for (const driver of testDrivers) {
+    try {
+      // Create driver profile (contains all driver info in this schema)
+      await prismaService.driverProfile.upsert({
+        where: { userId: driver.userId },
+        update: {
+          name: driver.name,
+          email: driver.email,
+          phone: driver.phone,
+          lastLat: driver.lat,
+          lastLng: driver.lng,
+          status: 'ONLINE',
+        },
+        create: {
+          userId: driver.userId,
+          name: driver.name,
+          email: driver.email,
+          phone: driver.phone,
+          lastLat: driver.lat,
+          lastLng: driver.lng,
+          status: 'ONLINE',
+          vehicleType: 'MOTOBIKE',
+          licensePlate: `TEST-${driver.userId.slice(-1)}`,
+          licenseNumber: `LIC${driver.userId.slice(-1)}`,
+        },
+      });
+
+      // Add to Redis
+      await geoadd('drivers', driver.lng, driver.lat, driver.userId);
+
+      console.log(
+        `✅ Created driver: ${driver.name} at (${driver.lat}, ${driver.lng})`
+      );
+    } catch (error) {
+      console.error(`❌ Error creating driver ${driver.userId}:`, error);
+    }
+  }
+};
+
 const redisSeed = async () => {
   const driverIds = await prismaService.driverProfile.findMany({
     select: {
@@ -76,15 +146,30 @@ const searchLat = 10.763;
 const searchLng = 106.661;
 const radiusKm = 2; // bán kính 2km
 
-geosearch('drivers', searchLng, searchLat, radiusKm)
-  .then((results) => {
-    console.log('hello', results);
-  })
-  .catch(async (e) => {
-    console.error('❌ Lỗi seed:', e);
-    await prismaService.$disconnect();
+// Main execution
+async function main() {
+  try {
+    console.log('🌱 Starting seed process...');
+
+    // Create test drivers
+    await createTestDrivers();
+
+    // Test search
+    console.log('\n🔍 Testing geosearch...');
+    const results = await geosearch('drivers', searchLng, searchLat, radiusKm);
+    console.log('Search results:', results);
+
+    console.log('\n✅ Seed completed successfully!');
+  } catch (error) {
+    console.error('❌ Seed error:', error);
     process.exit(1);
-  });
+  } finally {
+    await prismaService.$disconnect();
+    await client.quit();
+  }
+}
+
+main();
 // (10.762622, 106.660172), (10.764622, 106.662172), (10.765622, 106.664172), (21.028511, 105.804817), (16.054407, 108.202167)
 
 // Đà Nẵng:

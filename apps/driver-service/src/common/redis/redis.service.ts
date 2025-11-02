@@ -28,8 +28,28 @@ export class RedisService {
     radiusKm: number,
     count?: number
   ) {
+    // Add validation to ensure all required parameters are defined
+    if (!key) {
+      throw new Error('Redis key is required for geosearch');
+    }
+    if (lon === undefined || lon === null || isNaN(lon)) {
+      throw new Error('Valid longitude is required for geosearch');
+    }
+    if (lat === undefined || lat === null || isNaN(lat)) {
+      throw new Error('Valid latitude is required for geosearch');
+    }
+    if (
+      radiusKm === undefined ||
+      radiusKm === null ||
+      isNaN(radiusKm) ||
+      radiusKm <= 0
+    ) {
+      throw new Error('Valid radiusKm is required for geosearch');
+    }
+
     const options: any = { SORT: 'ASC' };
-    if (count && count > 0) {
+    // Handle count more defensively - gRPC might pass 0 instead of undefined
+    if (count !== undefined && count !== null && count > 0) {
       options.COUNT = count;
     }
 
