@@ -1,0 +1,39 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+enum VehicleType {
+  MOTOBIKE
+  BIKE
+}
+
+enum DriverStatus {
+  OFFLINE
+  ONLINE
+  BUSY
+}
+
+model DriverProfile {
+  userId        String       @id @db.VarChar(255)
+  name          String       @db.VarChar(255)
+  email         String       @db.VarChar(255)
+  phone         String       @db.VarChar(20)
+  vehicleType   VehicleType  @default(MOTOBIKE) @map("vehicle_type")
+  licensePlate  String       @map("license_plate") @db.VarChar(255)
+  licenseNumber String       @map("license_number") @db.VarChar(255)
+  status        DriverStatus @default(OFFLINE)
+  rating        Decimal      @db.Decimal(3, 2)
+  balance       Decimal      @db.Decimal(10, 2)
+  lastLat       Float?       @map("last_lat")
+  lastLng       Float?       @map("last_lng")
+  createdAt     DateTime     @default(now()) @map("createdAt") @db.Timestamptz()
+  updatedAt     DateTime     @updatedAt @map("updatedAt") @db.Timestamptz()
+
+  @@map("driver_profile")
+}
