@@ -1,0 +1,26 @@
+{
+  "name": "shared-client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared-client/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project shared-client --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shared-client",
+        "main": "libs/shared-client/src/index.ts",
+        "tsConfig": "libs/shared-client/tsconfig.lib.json",
+        "assets": [
+          {
+            "input": "libs/shared-client/src/grpc/proto",
+            "glob": "**/*.proto",
+            "output": "src/grpc/proto"
+          }
+        ]
+      }
+    }
+  }
+}
